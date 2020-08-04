@@ -43,35 +43,58 @@ const quiz = [
 const quizSubmission = []
 let score = 0;
 let questionNumber = 0;
+let index=0;
 let correct = false;
 let questionHTML = ``;
 let feedbackHTML = ``;
 let screenTypeQuestion = true;
+let message = 'Error, something went wrong';
 
-
+//update score variable
+function updateScore(){
+    if (correct){
+        score += 1;}
+        createFeedback();
+        console.log('updateScore ran');
+    }
+    //calculate score from quizSubmission array
+//check if answer is correct
+function checkSubmission(){
+    correct = Boolean(quiz[index].correct === quizSubmission[index]);
+    updateScore();
+    console.log('checkSubmission ran');
+    //check whether the current submission is correct
+    //update the correct variable
+}
 
 //use submission to add to the quizSubmission array
 function recordSubmission(){
+    console.log('recordSubmission ran');
+    quizSubmission.push($('input[name=answer]:checked').val());
+    screenTypeQuestion = false;
+    checkSubmission();
     //retrieve the submission
     //push it to the submission array
-
 }
-//check if answer is correct
-function checkSubmission(){
-    //check whether the current submission is correct
-    //update the correct variable
-    
-}
-//update score variable
-function updateScore(){
-    //if current answer is correct, add 1 to score
-
-}
-
+ 
 
 
 //create feedback screen from previous submission
 function createFeedback(){
+    console.log('createFeedback started')
+    if (correct){
+         message = "That is correct!"
+    }else{
+         message = "That is incorrect."
+    }
+    let answer = quiz[index].correct;
+    feedbackHTML = 
+    `<h3>${message}</h3>
+    <br>
+    <p>The answer is ${answer}.</p>
+    <form><button id="next">Next Question</button>
+    </form>`
+    renderScreen();
 //check if current answer is correct    
 //if incorrect, retrieve the correct answer
 //get proper html for the appropriate display
@@ -79,27 +102,29 @@ function createFeedback(){
 
 //create next question screen
 function createQuestion(questionNumber){
-    const index = questionNumber - 1;
+    screenTypeQuestion = true;
+    index = questionNumber - 1;
     const question = quiz[index].question;
     const a = quiz[index].a;
     const b = quiz[index].b;
     const c = quiz[index].c;
     const d = quiz[index].d;
-    questionHTML = `
-    <h2>Question ${questionNumber} </h2>
-    <p>$(question)</p>
+    console.log('createQuestion ran');
+    questionHTML = 
+    `<h2>Question ${questionNumber} </h2>
+    <p>${question}</p>
     <form>
-        <input type="radio" id="a" name="answer" required>
+        <input type="radio" id="a" name="answer" value= "${a}" required>
         <label for="a"> ${a} </label><br>
-        <input type="radio" id="b"  name="answer">
+        <input type="radio" id="b"  name="answer" value="${b}">
         <label for="b"> ${b} </label><br>
-        <input type="radio" id="c"  name="answer">
+        <input type="radio" id="c"  name="answer" value="${c}">
         <label for="c"> ${c} </label><br>
-        <input type="radio" id="d"  name="answer">
+        <input type="radio" id="d"  name="answer" value="${d}">
         <label for="d"> ${d} </label><br>
-        <button type="submit">Submit</button>
-    </form>
-`
+        <button type="submit" id="submit">Submit</button>
+    </form>`
+    renderScreen();
 }
 //add one to the current question number
 //access the appropriate question object in the quiz array
@@ -113,29 +138,27 @@ function renderScreen(){
     else {
         $('.js-section').html(feedbackHTML);
     }
-//retrieve the current question number
-//retrieve the current score
-//determine if it needs a question screen or a feedback screen
 //retrieve the appropriate screen html
 }
 //track answer submissions from the user
 function handleSubmission(){
-    $('.js-form').on('click', 'submit', event =>{
-        
+    console.log('handleSubmission ran');
+    $('.js-section').on('click', '#submit', event =>{
+        event.preventDefault();
+        console.log('Submission entered');
+        recordSubmission();
     })
 }
 //track next question submissions from the user
 function handleNext(){
-    console.log('handelNext ran');
-    $('.js-form').on('click', '#begin', function(event){
-    event.preventDefault;
+    console.log('handleNext ran');
+    $('.js-section').on('click', '#begin', event => {
+    event.preventDefault();
     questionNumber = 1;
-    console.log('begin clicked');
     createQuestion(questionNumber);
-    renderScreen();
     })
-    $('.js-form').on('click', '#next', event => {
-        event.preventDefault;
+    $('.js-section').on('click', '#next', event => {
+        event.preventDefault();
         questionNumber += 1;
         createQuestion(questionNumber);
     })
@@ -146,4 +169,4 @@ function handleQuizApp(){
     handleSubmission();
 console.log('handleQuizApp ran');
 }
-$(handleQuizApp)
+$(handleQuizApp);
