@@ -7,3 +7,10 @@ section{
     display:flex;
     flex-direction: row;
 }
+.incorrect{
+    color: red;
+}
+.correct{
+    color: green;
+    font-style: bold;
+}

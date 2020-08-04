@@ -84,8 +84,12 @@ function createFeedback(){
     console.log('createFeedback started')
     if (correct){
          message = "That is correct!"
+         $('h3').addClass("correct");
+         $('h3').removeClass("incorrect");
     }else{
          message = "That is incorrect."
+         $('h3').addClass("incorrect");
+         $('h3').removeClass("correct");
     }
     let answer = quiz[index].correct;
     feedbackHTML = 
@@ -104,6 +108,7 @@ function createFeedback(){
 function createQuestion(questionNumber){
     screenTypeQuestion = true;
     index = questionNumber - 1;
+    if (questionNumber <= quiz.length){
     const question = quiz[index].question;
     const a = quiz[index].a;
     const b = quiz[index].b;
@@ -125,6 +130,10 @@ function createQuestion(questionNumber){
         <button type="submit" id="submit">Submit</button>
     </form>`
     renderScreen();
+    }else{
+        questionHTML = `<p>Quiz Complete</p>`
+        renderScreen();
+    }
 }
 //add one to the current question number
 //access the appropriate question object in the quiz array
