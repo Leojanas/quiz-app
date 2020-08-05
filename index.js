@@ -37,6 +37,20 @@ const quiz = [
         "c": "Yosemite NP and Glacier Bay NP",
         "d": "Grand Teton NP and Badlands NP",
         "correct": "Denali NP and Death Valley NP"
+    },{
+        "question": "What was the most visited National Park in 2019?",
+        "a": "Zion NP",
+        "b": "Grand Canyon NP",
+        "c": "Great Smoky Mountains NP",
+        "d": "Rocky Mountain NP",
+        "correct": "Great Smoky Mountains NP"
+    },{
+        "question": "Which park was most recently given National Park status, in December of 2019?",
+        "a": "White Sands NP",
+        "b": "Indiana Dunes NP",
+        "c": "Black Canyon of the Gunnison NP",
+        "d": "Congaree NP",
+        "correct": "White Sands NP"
     }
 ]
 //create an array to hold the submitted answers and a variable to track the score
@@ -49,6 +63,7 @@ let questionHTML = ``;
 let feedbackHTML = ``;
 let screenTypeQuestion = true;
 let message = 'Error, something went wrong';
+let button = '';
 
 //update score variable
 function updateScore(){
@@ -57,14 +72,12 @@ function updateScore(){
         createFeedback();
         console.log('updateScore ran');
     }
-    //calculate score from quizSubmission array
+
 //check if answer is correct
 function checkSubmission(){
     correct = Boolean(quiz[index].correct === quizSubmission[index]);
     updateScore();
     console.log('checkSubmission ran');
-    //check whether the current submission is correct
-    //update the correct variable
 }
 
 //use submission to add to the quizSubmission array
@@ -76,8 +89,6 @@ function recordSubmission(){
     //retrieve the submission
     //push it to the submission array
 }
- 
-
 
 //create feedback screen from previous submission
 function createFeedback(){
@@ -91,12 +102,17 @@ function createFeedback(){
          $('h3').addClass("incorrect");
          $('h3').removeClass("correct");
     }
+    if (questionNumber<quiz.length){
+        button = 'Next Question';
+    }else{
+        button = 'Finish Quiz';
+    }
     let answer = quiz[index].correct;
     feedbackHTML = 
     `<h3>${message}</h3>
     <br>
     <p>The answer is ${answer}.</p>
-    <form><button id="next">Next Question</button>
+    <form><button id="next">${button}</button>
     </form>`
     renderScreen();
 //check if current answer is correct    
@@ -116,8 +132,8 @@ function createQuestion(questionNumber){
     const d = quiz[index].d;
     console.log('createQuestion ran');
     questionHTML = 
-    `<h2>Question ${questionNumber} </h2>
-    <p>${question}</p>
+    `<h3>Question ${questionNumber} </h3>
+    <p class="question">${question}</p>
     <form>
         <input type="radio" id="a" name="answer" value= "${a}" required>
         <label for="a"> ${a} </label><br>
@@ -131,24 +147,30 @@ function createQuestion(questionNumber){
     </form>`
     renderScreen();
     }else{
-        questionHTML = `<p>Quiz Complete</p>`
+        questionHTML = `<p>Quiz Complete</p>
+        <p>Your score is ${score}/${quiz.length}</p>
+        <form>
+        <button>Restart Quiz</button>
+        </form>`
         renderScreen();
     }
 }
-//add one to the current question number
-//access the appropriate question object in the quiz array
-//retrieve the appropriate screen html
 
 //render the screen
 function renderScreen(){
     if (screenTypeQuestion) {
         $('.js-section').html(questionHTML);
+        if(index < quiz.length){
+        $('#questionNumber').html(`Question ${questionNumber}/${quiz.length}`);
+        }
     }
     else {
         $('.js-section').html(feedbackHTML);
+        $('#currentScore').html(`Current Score: ${score}/${questionNumber}`);
     }
-//retrieve the appropriate screen html
+
 }
+
 //track answer submissions from the user
 function handleSubmission(){
     console.log('handleSubmission ran');
@@ -158,20 +180,17 @@ function handleSubmission(){
         recordSubmission();
     })
 }
+
 //track next question submissions from the user
 function handleNext(){
     console.log('handleNext ran');
-    $('.js-section').on('click', '#begin', event => {
-    event.preventDefault();
-    questionNumber = 1;
-    createQuestion(questionNumber);
-    })
-    $('.js-section').on('click', '#next', event => {
+    $('.js-section').on('click', '#next, #begin', event => {
         event.preventDefault();
         questionNumber += 1;
         createQuestion(questionNumber);
     })
 }
+
 //call all functions in a page ready callback function
 function handleQuizApp(){
     handleNext();

@@ -1,16 +1,68 @@
 /*This is all the CSS styling for the quiz app */
 
-section{
-    border: 2px solid black;
+
+img{
+    margin: auto 0;
 }
-.flex{
+.group{
     display:flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
 }
+
 .incorrect{
     color: red;
 }
 .correct{
     color: green;
     font-style: bold;
+}
+h1, h2, h3 {
+    text-align: center;
+}
+h1{
+    color: #c82500;
+    text-emphasis: bold;
+}
+h2{
+    padding: 0px;
+    margin: 10px;
+    font-size: 18px;
+    color: #c82500;
+}
+h3{
+    margin: 0px;
+    padding: 5px;
+}
+.group p{
+    padding: 0px 20px;
+    margin: 0px;
+}
+.question{
+    font-size: 20px;
+    padding: 0px 10px;
+    margin: 5px;
+}
+.item{
+    display: flex;
+}
+body{
+    background-image: linear-gradient(rgba(0,200,150,1), rgba(0,200,150,.3), rgba(0,200,150,1) ); 
+    margin: 0 auto;
+}
+header{
+    padding: 5px;
+    margin: 0px;
+}
+form{
+    padding: 10px;
+}
+form button{
+    margin: 10px;
+    align-items: center;
+}
+form [type=radio]{
+    padding: 10px 5px 0px 5px;
+
 }
