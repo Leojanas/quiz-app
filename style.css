@@ -2,7 +2,8 @@
 
 
 img{
-    margin: auto 0;
+    margin: 0 auto;
+    padding: 10px;
 }
 .group{
     display:flex;
@@ -10,7 +11,19 @@ img{
     align-items: center;
     justify-content: space-around;
 }
-
+@media screen and (min-width: 300px){
+    .group1{
+        flex-direction: row;
+    }
+}
+.item{
+    justify-content: space-evenly;
+    align-items: center;
+}
+#intro{
+    font-size: 24px;
+    text-emphasis: bold;
+}
 .incorrect{
     color: red;
 }
@@ -44,12 +57,32 @@ h3{
     padding: 0px 10px;
     margin: 5px;
 }
-.item{
-    display: flex;
-}
 body{
     background-image: linear-gradient(rgba(0,200,150,1), rgba(0,200,150,.3), rgba(0,200,150,1) ); 
     margin: 0 auto;
+}
+.center{
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+}
+.cover{
+    height: 150px;
+    width: 150px;
+    object-fit: cover;
+    align-self: center;
+}
+@media screen and (min-width: 300px){
+    .cover{
+        height: 300px;
+        width: 300px;
+    }
+}
+@media screen and (min-width: 800px){
+    .cover{
+        height:300px;
+        width: 500px;
+    }
 }
 header{
     padding: 5px;
@@ -57,10 +90,7 @@ header{
 }
 form{
     padding: 10px;
-}
-form button{
-    margin: 10px;
-    align-items: center;
+    margin: 0 auto;
 }
 form [type=radio]{
     padding: 10px 5px 0px 5px;
